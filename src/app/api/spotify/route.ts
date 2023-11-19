@@ -1,20 +1,24 @@
-import { Users } from '@/lib/users';
-import { cookies } from 'next/headers'
+import { getUserByEmail, updateUser } from '@/lib/db/users';
+import { refreshAccessTokenServer } from '@/lib/spotify';
 
-export const GET = async (request: Request) => {
-	const { searchParams } = new URL(request.url);
+export const POST = async (request: Request) => {
+    const { email } = await request.json();
 
-    const c = cookies().get('');
+    if (!email) {
+        return Response.json({ error: "'email' in body is required" }, { status: 400 });
+    }
 
-	const id = searchParams.get('id');
-	if (!id) {
-		return Response.json({ error: "'id' query is required" }, { status: 400 });
-	}
+    const user = await getUserByEmail(email);
+    if (user) {
+        const { access_token, refresh_token, token_type, expires_in, scope } = await refreshAccessTokenServer({
+            refreshToken: user.rt,
+        });
+        await updateUser(email, {
+            at: access_token,
+            rt: refresh_token ?? user.rt,
+            exp: Math.floor(Date.now() / 1000) + expires_in,
+        });
 
-	const user = Users.get(id);
-	if (!user) {
-		return Response.json({ error: 'User not found' }, { status: 404 });
-	}
-
-	const { at, rt } = user;
+        return Response.json({ at: access_token }, { status: 201 });
+    }
 };

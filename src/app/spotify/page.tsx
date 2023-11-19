@@ -1,16 +1,42 @@
 import { SpotifyNowPlaying } from '@/components/spotify-now-playing';
-import { getSpotifyNowPlaying, refreshAccessTokenServer } from '@/lib/spotify';
+import { prisma } from '@/lib/db/db';
+import { refreshAccessTokenServer } from '@/lib/spotify';
+import { Users } from '@prisma/client';
 
-export default function Spotify(ctx: any) {
-	const { rt } = ctx.searchParams;
+export default async function Spotify(ctx: any) {
+    const { id } = ctx.searchParams;
 
-	// let { access_token, refresh_token } = await refreshAccessTokenServer({ refreshToken: rt });
+    let user: Users | null;
 
-	// const {} = await getSpotifyNowPlaying({ accessToken: access_token });
+    try {
+        user = await prisma.users.findFirst({ where: { email: id } });
+        if (!user || !user.rt) {
+            return <>Please sign in at least once</>;
+        }
 
-	return (
-		<main className='p-4'>
-			<SpotifyNowPlaying refresh_token={`${rt}`} />
-		</main>
-	);
+        if (!user.exp || user.exp > Date.now()) {
+            const { access_token, refresh_token, token_type, expires_in, scope } = await refreshAccessTokenServer({
+                refreshToken: user.rt,
+            });
+            await prisma.users.update({
+                data: {
+                    at: access_token,
+                    rt: refresh_token ?? user.rt,
+                    exp: Math.floor(Date.now() / 1000) + expires_in,
+                },
+                where: {
+                    email: id,
+                },
+            });
+        }
+    } catch (error) {
+        console.log('ERROR', error);
+        return <>Please sign in at least once</>;
+    }
+
+    return (
+        <main className="p-4">
+            <SpotifyNowPlaying at={`${user.at}`} email={user.email} />
+        </main>
+    );
 }
