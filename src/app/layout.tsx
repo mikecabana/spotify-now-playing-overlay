@@ -7,6 +7,7 @@ import type { Metadata } from 'next';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
+    metadataBase: new URL(`https://spotify-now-playing-overlay.vercel.app`),
     title: 'Spotify Now Playing Overlay',
     description:
         'Display your currently playing track on Spotify. Embed in your websites or add to your stream overlays.',
@@ -14,7 +15,7 @@ export const metadata: Metadata = {
         title: 'Spotify Now Playing Overlay',
         description:
             'Display your currently playing track on Spotify. Embed in your websites or add to your stream overlays.',
-        url: 'https://spotify-now-playing-overlay.vercel.app/',
+        url: 'https://spotify-now-playing-overlay.vercel.app',
         type: 'website',
     },
     twitter: {
