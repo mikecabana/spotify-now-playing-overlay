@@ -1,11 +1,13 @@
 import { authOptions } from '@/auth';
 import { getServerSession } from 'next-auth';
-import Link from 'next/link';
 import { createUser, getUserByEmail, updateUser } from '@/lib/db/users';
 import { headers } from 'next/headers';
-import { Code2 } from 'lucide-react';
+import { ExternalLink } from 'lucide-react';
+import { SiGithub, SiThreads } from '@icons-pack/react-simple-icons';
 import { SpotifySignIn } from '@/components/spotify-sign-in';
 import { SignOut } from '@/components/sign-out';
+import { CopyToClipboardBtn } from '@/components/copy-to-clipboard-btn';
+import { Btn } from '@/components/btn';
 
 export default async function Home() {
     const headersList = headers();
@@ -31,27 +33,34 @@ export default async function Home() {
     }
 
     return (
-        <main className="flex min-h-screen flex-col items-center justify-between p-8 md:p-24">
+        <main className="flex min-h-screen flex-col items-center justify-between px-8 py-24 md:p-24">
             <div>
                 {session ? (
                     <div>
-                        <div className="md:flex justify-between items-baseline mb-4 p-2">
-                            <div className="font-bold mb-8 md:mb-0">Spotify Now Playing Overlay</div>
-                            <div className="text-sm flex justify-end gap-6">
-                                <Link
-                                    className="text-[#1DB954] hover:underline active:underline"
-                                    href={`/spotify?id=${encodeURIComponent(session.user?.email ?? '')}`}
-                                >
-                                    Now Playing
-                                </Link>
+                        <div className="flex flex-col-reverse md:flex-row md:justify-between md:items-baseline p-2">
+                            <div className="font-bold md:mb-0">Spotify Now Playing Overlay</div>
+                            <div className="text-xs flex justify-end">
                                 <SignOut>Sign Out</SignOut>
                             </div>
                         </div>
-                        <pre className="whitespace-pre-wrap break-all max-w-3/4 w-full border p-8 rounded-3xl">
+                        <pre className="whitespace-pre-wrap break-all max-w-3/4 w-full border border-black dark:border-white p-8 rounded-3xl my-4 bg-fern-200 bg-opacity-10">
                             {domain}/spotify?id={encodeURIComponent(session.user?.email ?? '')}
                         </pre>
 
-                        <div className="text-xs mt-4 text-center">Copy the above url</div>
+                        <div className="text-xs text-center flex justify-between">
+                            <CopyToClipboardBtn
+                                value={`${domain}/spotify?id=${encodeURIComponent(session.user?.email ?? '')}`}
+                            >
+                                Copy URL
+                            </CopyToClipboardBtn>
+                            <Btn
+                                href={`/spotify?id=${encodeURIComponent(session.user?.email ?? '')}`}
+                                className="flex items-center"
+                            >
+                                Go to Now Playing
+                                <ExternalLink className="w-4 h-4 ml-2" />
+                            </Btn>
+                        </div>
                     </div>
                 ) : (
                     <div className="flex flex-col gap-8 items-center p-2">
@@ -61,7 +70,14 @@ export default async function Home() {
                 )}
             </div>
             <div className="flex flex-col items-center text-center text-sm">
-                <Code2 className="w-4" />
+                <div className="flex items-center justify-center gap-1 mb-4">
+                    <Btn href="https://github.com/mikecabana/spotify-now-playing-overlay" target="_blank">
+                        <SiGithub className="w-4 h-4" />
+                    </Btn>
+                    <Btn href="https://threads.net/@mikecabana" target="_blank">
+                        <SiThreads className="w-4 h-4" />
+                    </Btn>
+                </div>
                 <div>Built by Mike Cabana</div>
                 <div>{new Date().getFullYear()}</div>
             </div>

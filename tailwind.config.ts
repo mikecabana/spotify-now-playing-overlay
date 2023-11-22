@@ -6,7 +6,25 @@ const config: Config = {
         './src/components/**/*.{js,ts,jsx,tsx,mdx}',
         './src/app/**/*.{js,ts,jsx,tsx,mdx}',
     ],
-    theme: {},
+    theme: {
+        extend: {
+            colors: {
+                fern: {
+                    '50': '#f0fdf4',
+                    '100': '#dbfde6',
+                    '200': '#baf8cf',
+                    '300': '#84f1aa',
+                    '400': '#48e07d',
+                    '500': '#1db954',
+                    '600': '#14a547',
+                    '700': '#13823b',
+                    '800': '#156633',
+                    '900': '#13542c',
+                    '950': '#042f15',
+                },
+            },
+        },
+    },
     plugins: [],
 };
 export default config;
