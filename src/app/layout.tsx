@@ -20,6 +20,10 @@ export const metadata: Metadata = {
         description:
             'Display your currently playing track on Spotify. Embed in your websites or add to your stream overlays.',
     },
+
+    verification: {
+        google: `${process.env.GOOGLE_SITE_VERIFICATION}`,
+    },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
