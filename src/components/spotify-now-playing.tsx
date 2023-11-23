@@ -7,9 +7,10 @@ import { Music4 } from 'lucide-react';
 type SpotifyNowPlayingProps = {
     email: string;
     at: string;
+    host: string;
 };
 
-export const SpotifyNowPlaying: FC<SpotifyNowPlayingProps> = ({ email, at: _at }) => {
+export const SpotifyNowPlaying: FC<SpotifyNowPlayingProps> = ({ email, at: _at, host }) => {
     const timerIdRef = useRef<null | NodeJS.Timeout>(null);
     const [isPollingEnabled, setIsPollingEnabled] = useState(true);
 
@@ -31,7 +32,7 @@ export const SpotifyNowPlaying: FC<SpotifyNowPlayingProps> = ({ email, at: _at }
 
                 if ((error as Error).message === 'Spotify:unauthenticated') {
                     // POST to refresh token
-                    const res = await fetch('http://localhost:3000/api/spotify', {
+                    const res = await fetch(`${host}/api/spotify`, {
                         method: 'POST',
                         headers: { 'Content-type': 'application/json' },
                         body: JSON.stringify({ email }),
@@ -64,7 +65,7 @@ export const SpotifyNowPlaying: FC<SpotifyNowPlayingProps> = ({ email, at: _at }
         return () => {
             stopPolling();
         };
-    }, [at, email, isPollingEnabled]);
+    }, [at, email, host, isPollingEnabled]);
 
     return (
         <>
@@ -76,7 +77,7 @@ export const SpotifyNowPlaying: FC<SpotifyNowPlayingProps> = ({ email, at: _at }
                             <Image width={100} height={100} src={image.url} alt={`${artist}, ${name} album art`} />
                         ) : (
                             <div className="w-[100px] h-[100px] flex items-center justify-center bg-zinc-500">
-                                <Music4 className='text-zinc-700 w-10 h-10' />
+                                <Music4 className="text-zinc-700 w-10 h-10" />
                             </div>
                         )}
                     </div>

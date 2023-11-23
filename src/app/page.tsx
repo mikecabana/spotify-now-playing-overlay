@@ -2,7 +2,7 @@ import { authOptions } from '@/auth';
 import { getServerSession } from 'next-auth';
 import { createUser, getUserByEmail, updateUser } from '@/lib/db/users';
 import { headers } from 'next/headers';
-import { ExternalLink } from 'lucide-react';
+import { ExternalLink, Sparkle } from 'lucide-react';
 import { SiGithub, SiThreads } from '@icons-pack/react-simple-icons';
 import { SpotifySignIn } from '@/components/spotify-sign-in';
 import { SignOut } from '@/components/sign-out';
@@ -36,32 +36,43 @@ export default async function Home() {
         <main className="flex min-h-screen flex-col items-center justify-between px-8 py-24 md:p-24">
             <div>
                 {session ? (
-                    <div>
-                        <div className="flex flex-col-reverse md:flex-row md:justify-between md:items-baseline p-2">
-                            <div className="font-bold md:mb-0">Spotify Now Playing Overlay</div>
-                            <div className="text-xs flex justify-end">
-                                <SignOut>Sign Out</SignOut>
+                    <>
+                        <div className='mb-8'>
+                            <div className="flex flex-col-reverse md:flex-row md:justify-between md:items-baseline p-2">
+                                <div className="font-bold md:mb-0">Spotify Now Playing Overlay</div>
+                                <div className="text-xs flex justify-end">
+                                    <SignOut>Sign Out</SignOut>
+                                </div>
+                            </div>
+                            <pre className="text-zinc-600 dark:text-zinc-400 whitespace-pre-wrap break-all max-w-3/4 border border-zinc-300 dark:border-zinc-800 p-8 mx-4 rounded-lg my-4 bg-fern-200 bg-opacity-10">
+                                {domain}/spotify?id={encodeURIComponent(session.user?.email ?? '')}
+                            </pre>
+
+                            <div className="text-xs text-center flex justify-between">
+                                <CopyToClipboardBtn
+                                    value={`${domain}/spotify?id=${encodeURIComponent(session.user?.email ?? '')}`}
+                                >
+                                    Copy URL
+                                </CopyToClipboardBtn>
+                                <Btn
+                                    href={`/spotify?id=${encodeURIComponent(session.user?.email ?? '')}`}
+                                    className="flex items-center"
+                                >
+                                    Go to Now Playing
+                                    <ExternalLink className="w-4 h-4 ml-2" />
+                                </Btn>
                             </div>
                         </div>
-                        <pre className="whitespace-pre-wrap break-all max-w-3/4 w-full border border-black dark:border-white p-8 rounded-3xl my-4 bg-fern-200 bg-opacity-10">
-                            {domain}/spotify?id={encodeURIComponent(session.user?.email ?? '')}
-                        </pre>
-
-                        <div className="text-xs text-center flex justify-between">
-                            <CopyToClipboardBtn
-                                value={`${domain}/spotify?id=${encodeURIComponent(session.user?.email ?? '')}`}
-                            >
-                                Copy URL
-                            </CopyToClipboardBtn>
-                            <Btn
-                                href={`/spotify?id=${encodeURIComponent(session.user?.email ?? '')}`}
-                                className="flex items-center"
-                            >
-                                Go to Now Playing
-                                <ExternalLink className="w-4 h-4 ml-2" />
-                            </Btn>
+                        <div className="h-[166px]">
+                            <iframe
+                                className="w-full h-full"
+                                src={`http://${domain}/spotify?id=${encodeURIComponent(session.user?.email ?? '')}`}
+                            ></iframe>
+                            <div className="text-xs opacity-60 flex items-start justify-center">
+                                This is embedded <Sparkle className="w-4 h-4 ml-1" />
+                            </div>
                         </div>
-                    </div>
+                    </>
                 ) : (
                     <div className="flex flex-col gap-8 items-center p-2">
                         <div className="font-bold mb-8 md:mb-0">Spotify Now Playing Overlay</div>
