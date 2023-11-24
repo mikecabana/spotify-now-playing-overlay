@@ -8,6 +8,7 @@ import { SpotifySignIn } from '@/components/spotify-sign-in';
 import { SignOut } from '@/components/sign-out';
 import { CopyToClipboardBtn } from '@/components/copy-to-clipboard-btn';
 import { Btn } from '@/components/btn';
+import { useState } from 'react';
 
 export default async function Home() {
     const headersList = headers();
@@ -37,7 +38,7 @@ export default async function Home() {
             <div>
                 {session ? (
                     <>
-                        <div className='mb-8'>
+                        <div className="mb-8">
                             <div className="flex flex-col-reverse md:flex-row md:justify-between md:items-baseline p-2">
                                 <div className="font-bold md:mb-0">Spotify Now Playing Overlay</div>
                                 <div className="text-xs flex justify-end">
@@ -45,17 +46,26 @@ export default async function Home() {
                                 </div>
                             </div>
                             <pre className="text-zinc-600 dark:text-zinc-400 whitespace-pre-wrap break-all max-w-3/4 border border-zinc-300 dark:border-zinc-800 p-8 mx-4 rounded-lg my-4 bg-fern-200 bg-opacity-10">
-                                {domain}/spotify?id={encodeURIComponent(session.user?.email ?? '')}
+                                {domain}/spotify?id={encodeURIComponent(session.user?.email ?? '')}&size=sm
                             </pre>
+                            <div className="text-xs text-center opacity-60">
+                                Omit the{' '}
+                                <code className="px-[2px] py-[1px] text-fern-300 bg-fern-800 bg-opacity-40 rounded">
+                                    size
+                                </code>{' '}
+                                param for a clunkier overlay
+                            </div>
 
                             <div className="text-xs text-center flex justify-between">
                                 <CopyToClipboardBtn
-                                    value={`${domain}/spotify?id=${encodeURIComponent(session.user?.email ?? '')}`}
+                                    value={`${domain}/spotify?id=${encodeURIComponent(
+                                        session.user?.email ?? ''
+                                    )}&size=sm`}
                                 >
                                     Copy URL
                                 </CopyToClipboardBtn>
                                 <Btn
-                                    href={`/spotify?id=${encodeURIComponent(session.user?.email ?? '')}`}
+                                    href={`/spotify?id=${encodeURIComponent(session.user?.email ?? '')}&size=sm`}
                                     className="flex items-center"
                                 >
                                     Go to Now Playing
@@ -63,14 +73,16 @@ export default async function Home() {
                                 </Btn>
                             </div>
                         </div>
-                        <div className="h-[166px]">
+                        <div className="h-[120px] flex items-stretch justify-center">
                             <iframe
-                                className="w-full h-full"
-                                src={`http://${domain}/spotify?id=${encodeURIComponent(session.user?.email ?? '')}`}
+                                className="flex-grow"
+                                src={`http://${domain}/spotify?id=${encodeURIComponent(
+                                    session.user?.email ?? ''
+                                )}&size=sm`}
                             ></iframe>
-                            <div className="text-xs opacity-60 flex items-start justify-center">
-                                This is embedded <Sparkle className="w-4 h-4 ml-1" />
-                            </div>
+                        </div>
+                        <div className="text-xs opacity-60 flex items-start justify-center">
+                            This is embedded <Sparkle className="w-4 h-4 ml-1" />
                         </div>
                     </>
                 ) : (

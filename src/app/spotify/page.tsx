@@ -6,7 +6,7 @@ import { headers } from 'next/headers';
 
 export default async function Spotify(ctx: any) {
     const _headers = headers();
-    const { id } = ctx.searchParams;
+    const { id, size } = ctx.searchParams;
     const scheme = _headers.get('scheme') || '';
 
     let user: Users | null;
@@ -39,7 +39,7 @@ export default async function Spotify(ctx: any) {
 
     return (
         <main className="p-4">
-            <SpotifyNowPlaying at={`${user.at}`} email={user.email} host={scheme} />
+            <SpotifyNowPlaying at={`${user.at}`} email={user.email} host={scheme} size={size} />
         </main>
     );
 }
