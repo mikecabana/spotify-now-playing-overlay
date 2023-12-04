@@ -76,7 +76,7 @@ export default async function Home() {
                         <div className="h-[120px] flex items-stretch justify-center">
                             <iframe
                                 className="flex-grow"
-                                src={`http://${domain}/spotify?id=${encodeURIComponent(
+                                src={`https://${domain}/spotify?id=${encodeURIComponent(
                                     session.user?.email ?? ''
                                 )}&size=sm`}
                             ></iframe>
