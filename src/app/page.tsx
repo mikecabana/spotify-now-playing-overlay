@@ -11,7 +11,7 @@ import { Btn } from '@/components/btn';
 import { useState } from 'react';
 
 export default async function Home() {
-    const headersList = headers();
+    const headersList = await headers();
     const session = await getServerSession(authOptions);
     const domain = headersList.get('host') || '';
 
