@@ -1,11 +1,11 @@
 import { SpotifyNowPlaying } from '@/components/spotify-now-playing';
 import { prisma } from '@/lib/db/db';
 import { refreshAccessTokenServer } from '@/lib/spotify';
-import { Users } from '@prisma/client';
+import { Users } from '@prisma/client/edge';
 import { headers } from 'next/headers';
 
 export default async function Spotify(ctx: any) {
-    const _headers = headers();
+    const _headers = await headers();
     const { id, size } = ctx.searchParams;
     const scheme = _headers.get('scheme') || '';
 

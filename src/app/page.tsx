@@ -1,4 +1,4 @@
-import { authOptions } from '@/auth';
+import { authOptions } from '@/lib/auth';
 import { getServerSession } from 'next-auth';
 import { createUser, getUserByEmail, updateUser } from '@/lib/db/users';
 import { headers } from 'next/headers';

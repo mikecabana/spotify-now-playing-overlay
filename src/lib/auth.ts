@@ -30,9 +30,9 @@ export const authOptions: AuthOptions = {
 		},
 		session: async ({ session, token, newSession, user, trigger }) => {
 			if (token?.spotify_access_token) {
-				(session as any).spotify_refresh_token = token.spotify_refresh_token;
-                (session as any).spotify_access_token = token.spotify_access_token;
-				(session as any).spotify_expires_at = token.spotify_expires_at;
+				session.spotify_refresh_token = token.spotify_refresh_token as string;
+                session.spotify_access_token = token.spotify_access_token as string;
+				session.spotify_expires_at = token.spotify_expires_at  as number;
 			}
 
 			return session;
