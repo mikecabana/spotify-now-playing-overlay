@@ -1,15 +1,14 @@
-'use client';
+"use client";
 
-import { signOut } from 'next-auth/react';
-import { FC, ReactNode } from 'react';
-import { Btn } from './btn';
-import { LogOut } from 'lucide-react';
+import { LogOut } from "lucide-react";
+import { signOut } from "next-auth/react";
+import { Btn } from "./btn";
 
-export const SignOut: FC<{ children: ReactNode }> = ({ children }) => {
-    return (
-        <Btn onClick={() => signOut()} className='flex items-center'>
-            {children}
-            <LogOut className='w-4 h-4 ml-2' />
-        </Btn>
-    );
-};
+export function SignOut() {
+  return (
+    <Btn onClick={() => signOut()} className="flex items-center">
+      Log out
+      <LogOut className="w-4 h-4 ml-2" />
+    </Btn>
+  );
+}

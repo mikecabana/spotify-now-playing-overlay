@@ -1,30 +1,27 @@
-import type { Config } from 'tailwindcss';
+import type { Config } from "tailwindcss";
 
 const config: Config = {
-    content: [
-        './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
-        './src/components/**/*.{js,ts,jsx,tsx,mdx}',
-        './src/app/**/*.{js,ts,jsx,tsx,mdx}',
-    ],
-    theme: {
-        extend: {
-            colors: {
-                fern: {
-                    '50': '#f0fdf4',
-                    '100': '#dbfde6',
-                    '200': '#baf8cf',
-                    '300': '#84f1aa',
-                    '400': '#48e07d',
-                    '500': '#1db954',
-                    '600': '#14a547',
-                    '700': '#13823b',
-                    '800': '#156633',
-                    '900': '#13542c',
-                    '950': '#042f15',
-                },
-            },
-        },
+  content: [
+    "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
+  ],
+  theme: {
+    extend: {
+      fontFamily: {
+        "mix-ui": ["var(--font-spotify-mix-ui)"],
+        "mix-ui-title": ["var(--font-spotify-mix-ui-title)"],
+      },
+      colors: {
+        background: "hsl(var(--background))",
+        foreground: "hsl(var(--foreground))",
+        spotify: "hsl(var(--spotify))",
+        "spotify-highlight": "hsl(var(--spotify-highlight))",
+        "spotify-press": "hsl(var(--spotify-press))",
+      },
     },
-    plugins: [],
+  },
+
+  plugins: [],
 };
 export default config;
