@@ -1,5 +1,5 @@
+import { description } from '@/lib/meta';
 import { MetadataRoute } from 'next';
-import { description } from './layout';
 
 export default function manifest(): MetadataRoute.Manifest {
     return {

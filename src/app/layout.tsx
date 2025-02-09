@@ -1,3 +1,4 @@
+import { description } from '@/lib/meta';
 import type { Metadata } from 'next';
 import localFont from 'next/font/local';
 import Script from 'next/script';
@@ -25,9 +26,6 @@ const spotifyMixUiTitle = localFont({
     display: 'swap',
     variable: '--font-spotify-mix-ui-title',
 });
-
-export const description =
-    'The easiest way to showcase your music. Display what your listening to on Spotify live. Embed on your websites or in you live streams.';
 
 export const metadata: Metadata = {
     title: 'Spotify NPO',
