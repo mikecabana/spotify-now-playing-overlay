@@ -2,7 +2,7 @@
 
 import { cookies as nextCookies } from 'next/headers';
 
-export async function setCookieConsent(consent: 'granted' | 'declined') {
+export async function setCookieConsent(consent: 'granted' | 'denied') {
     const cookies = await nextCookies();
     cookies.set({
         name: 'cookie_consent',
@@ -15,5 +15,5 @@ export async function setCookieConsent(consent: 'granted' | 'declined') {
 export async function getCookieConsent() {
     const cookies = await nextCookies();
     const consentCookie = cookies.get('cookie_consent');
-    return consentCookie?.value as 'granted' | 'declined' | undefined;
+    return consentCookie?.value as 'granted' | 'denied' | undefined;
 }

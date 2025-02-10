@@ -29,7 +29,7 @@ export function ConsentBanner({ show }: ConsentBannerProps) {
                     </p>
 
                     <div className="flex justify-center md:justify-end shrink-0 gap-1">
-                        <form action={() => setCookieConsent('declined')}>
+                        <form action={() => setCookieConsent('denied')}>
                             <Btn type="submit" onClick={() => setVisible(false)}>
                                 <span className="text-sm">Decline</span>
                             </Btn>
