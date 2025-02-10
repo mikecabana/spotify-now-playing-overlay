@@ -1,3 +1,4 @@
+import { ConsentBanner } from '@/components/consent';
 import { Dashboard } from '@/components/dashboard';
 import { Footer } from '@/components/footer';
 import { Header } from '@/components/header';
@@ -6,10 +7,13 @@ import { auth } from '@/lib/auth';
 import { createUser, getUserByEmail, updateUser } from '@/lib/db/users';
 import { headers } from 'next/headers';
 import NextImage from 'next/image';
+import { getCookieConsent } from './actions';
 
 export default async function Home() {
     const headersList = await headers();
     const session = await auth();
+    const consent = await getCookieConsent();
+    const showConsentBanner = consent === undefined;
     const domain = headersList.get('host') || '';
 
     if (session?.user?.email) {
@@ -74,6 +78,7 @@ export default async function Home() {
                 )}
             </div>
             <Footer />
+            <ConsentBanner show={showConsentBanner} />
         </main>
     );
 }
