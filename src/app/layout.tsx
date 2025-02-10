@@ -1,8 +1,10 @@
+import { ConsentBanner } from '@/components/consent';
 import { description } from '@/lib/meta';
+import { GoogleTagManager } from '@next/third-parties/google';
 import type { Metadata } from 'next';
 import localFont from 'next/font/local';
-import Script from 'next/script';
 import { Toaster } from 'react-hot-toast';
+import { getCookieConsent } from './actions';
 import './globals.css';
 
 const spotifyMixUi = localFont({
@@ -47,18 +49,20 @@ export const metadata: Metadata = {
     },
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
+    const gtmId = process.env.GOOGLE_TAG_MANAGER_ID as string;
+
+    const consent = await getCookieConsent();
+    const showConsentBanner = consent === undefined;
+
     return (
         <>
-            <Script
-                async
-                src="https://analytics.eu.umami.is/script.js"
-                data-website-id="8c33b96a-3845-4323-b8f1-457d1403ace4"
-            />
             <html lang="en">
+                <GoogleTagManager gtmId={gtmId} />
                 <body className={`${spotifyMixUi.variable} ${spotifyMixUiTitle.variable} font-mix-ui`}>
                     {children}
                     <Toaster position="top-center" />
+                    <ConsentBanner show={showConsentBanner} />
                 </body>
             </html>
         </>
