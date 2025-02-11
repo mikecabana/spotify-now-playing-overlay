@@ -13,8 +13,8 @@ const config: Config = {
         "mix-ui-title": ["var(--font-spotify-mix-ui-title)"],
       },
       colors: {
-        background: "hsl(var(--background))",
-        foreground: "hsl(var(--foreground))",
+        background: "hsla(var(--background), var(--background-alpha))",
+        foreground: "hsla(var(--foreground), var(--foreground-alpha))",
         spotify: "hsl(var(--spotify))",
         "spotify-highlight": "hsl(var(--spotify-highlight))",
         "spotify-press": "hsl(var(--spotify-press))",
