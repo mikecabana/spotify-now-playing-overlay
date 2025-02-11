@@ -6,13 +6,18 @@ type DashboardProps = { domain: string; session: Session };
 
 export async function Dashboard({ domain, session }: DashboardProps) {
   const headers = await nextHeaders();
-  const reqUrl = headers.get("referer");
+  const schemeHeader = headers.get(":scheme:");
+  const refererHeader = headers.get("referer");
 
   let scheme: "https" | "http" = "http";
 
-  if (reqUrl) {
-    const url = new URL(reqUrl);
+  if (refererHeader) {
+    const url = new URL(refererHeader);
     scheme = url.protocol === "https:" ? "https" : "http";
+  }
+
+  if (schemeHeader) {
+    scheme = schemeHeader as "https" | "http";
   }
 
   return (
