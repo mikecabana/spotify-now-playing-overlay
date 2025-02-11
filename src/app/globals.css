@@ -14,5 +14,9 @@
   }
   body {
     @apply bg-background text-foreground;
+
+    &.widget {
+      --background-alpha: 0;
+    }
   }
 }
