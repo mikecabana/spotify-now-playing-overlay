@@ -46,6 +46,10 @@ export const metadata: Metadata = {
   verification: {
     google: `${process.env.GOOGLE_SITE_VERIFICATION}`,
   },
+
+  other: {
+    "color-scheme": "light dark",
+  },
 };
 
 export default async function RootLayout({
